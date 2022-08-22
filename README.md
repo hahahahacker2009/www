@@ -10,6 +10,6 @@ Windows (Server) / Linux (Red Hat Enterprise Linux 9.x, Ubuntu Server 22.04)
 
 Apache 2.4
 
-PHP 8.0 (sẽ có cả 7.x)
+PHP 8.0
 
 # Dự kiến đó sẽ là một diễn đàn ;)
