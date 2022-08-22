@@ -1,10 +1,6 @@
 <?php
 	$charset = "iso-8859-1";
 	$page_title = "Intranet - Trang chu";
-	include("./include/head.html");
-?>
-
-<?php
 	include("./include/header.html");
 ?>
 
@@ -60,9 +56,32 @@
 		}
 
 		if ($name && $username && $email && $password) {
-			$query = "SELECT user_id FROM user WHERE username='$username'";
-			$result = @mysqli_query($dbc, $query);
-			if (mysqli_num_rows($result) == 0) {
+			function check_username($username, $dbc) {
+				$query = "SELECT user_id FROM user WHERE username='$username'";
+				$result = @mysqli_query($dbc, $query);
+
+				if (mysqli_num_rows($result) == 0) {
+					return FALSE;
+				} else {
+					return TRUE;
+				}
+			}
+
+			function check_email($email, $dbc) {
+				$query = "SELECT user_id FROM user WHERE email='$email'";
+				$result = @mysqli_query($dbc, $query);
+
+				if (mysqli_num_rows($result) == 0) {
+					return FALSE;
+				} else {
+					return TRUE;
+				}
+			}
+
+			echo $exist['username'];
+			echo $exist['email'];
+
+			if ($exist['username'] == FALSE && $exist['email'] == FALSE) {
 				$query = "INSERT INTO user (disp_name, username, email, password, registration_date) VALUES ('$name', '$username', '$email', SHA2('$password', 256), NOW());";
 				echo "Cau lenh se thuc hien: $query";
 				$result = @mysqli_query($dbc, $query);
@@ -72,13 +91,19 @@
 					$_SESSION['disp_name'] = $name;
 					$_SESSION['username'] = $username;
 					echo "<h2>Ban da dang nhap thanh cong!</h2>";
-					header("Location: http://{$_SERVER['HTTP_HOST']}/index.html?action=registered&&name={$_POST['disp_name']}");
+					header("Location: http://{$_SERVER['HTTP_HOST']}/index.php?action=registered&&name={$_POST['disp_name']}");
 					exit();	
 				} else {
 					$msg = '<h3>Ban khong the dang ki do mot loi he thong. Chung toi xin loi vi su co nay.</h3>' . mysqli_error($dbc);
 				}
 			} else {
-				$msg .= "Ten dang nhap da duoc su dung.";
+				if ($exist['username'] == TRUE) {
+					$msg .= 'Ten dang nhap da duoc su dung. <br />';
+				}
+
+				if ($exist['email'] == TRUE) {
+					$msg .= 'Email da duoc su dung. <br />';
+				}
 			}
 		mysqli_close($dbc);
 		} else {
