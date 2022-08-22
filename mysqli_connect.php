@@ -14,10 +14,10 @@ function escape_data($data, $trim=TRUE) {
 	}
 
 	if ($trim=FALSE) {
-		return mysqli_real_escape_string($dbc, htmlspecialchars($data));
+		return mysqli_real_escape_string($dbc, htmlspecialchars(strip_tags($data)));
 	} else 
 
-	return mysqli_real_escape_string($dbc, trim(htmlspecialchars($data)));
+	return mysqli_real_escape_string($dbc, trim(htmlspecialchars(strip_tags($data))));
 }
 
 ?>
