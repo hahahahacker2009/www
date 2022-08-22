@@ -36,7 +36,7 @@ include("./include/header.html");
 				$_SESSION['disp_name'] = $assoc['disp_name'];
 				$_SESSION['username'] = $username;
 				echo "<h2>Ban da dang nhap thanh cong!</h2>";
-				header("Location: http://{$_SERVER['HTTP_HOST']}/index.html");
+				header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 				exit();
 			} else {
 				$msg = "Ten dang nhap hoac mat khau sai!";
