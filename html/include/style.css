@@ -1,0 +1,13 @@
+a.links:link {
+	text-decoration: none;
+}
+
+a.links:hover {
+	text-decoration: underline;
+}
+
+a.links:active {
+	text-decoration: line-through;
+	color: blue;
+}
+
