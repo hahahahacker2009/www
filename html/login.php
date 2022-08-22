@@ -74,7 +74,6 @@ include("./include/header.html");
 	</tr>
 </table>
 </fieldset>
-</div>
 </form>
 
 <?php
