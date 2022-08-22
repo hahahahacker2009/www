@@ -18,9 +18,9 @@
 		require_once("../mysqli_connect.php");
 		$msg = NULL;
 		if (!empty($_POST['disp_name'])) {
-			$name = escape_data($_POST['disp_name']);
+			$disp_name = escape_data($_POST['disp_name']);
 		} else {
-			$name = FALSE;
+			$disp_name = FALSE;
 			$msg .= "Vui long nhap ten hien thi! <br />";
 		}
 
@@ -55,7 +55,7 @@
 			$msg .= "Vui long nhap mat khau cua ban! <br />";
 		}
 
-		if ($name && $username && $email && $password) {
+		if ($disp_name && $username && $email && $password) {
 			function check_username($username, $dbc) {
 				$query = "SELECT user_id FROM user WHERE username='$username'";
 				$result = @mysqli_query($dbc, $query);
@@ -82,13 +82,13 @@
 			echo $exist['email'];
 
 			if ($exist['username'] == FALSE && $exist['email'] == FALSE) {
-				$query = "INSERT INTO user (disp_name, username, email, password, registration_date) VALUES ('$name', '$username', '$email', SHA2('$password', 256), NOW());";
+				$query = "INSERT INTO user (disp_name, username, email, password, registration_date) VALUES ('$disp_name', '$username', '$email', SHA2('$password', 256), NOW());";
 				echo "Cau lenh se thuc hien: $query";
 				$result = @mysqli_query($dbc, $query);
 				if ($result) {
 					echo "<h2>Ban da duoc dang ki!</h2>";
 					$_SESSION['loggedin'] = TRUE;
-					$_SESSION['disp_name'] = $name;
+					$_SESSION['disp_name'] = $disp_name;
 					$_SESSION['username'] = $username;
 					echo "<h2>Ban da dang nhap thanh cong!</h2>";
 					header("Location: http://{$_SERVER['HTTP_HOST']}/index.php?action=registered&&name={$_POST['disp_name']}");
