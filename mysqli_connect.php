@@ -4,8 +4,8 @@ DEFINE ('DB_PW', 'php8apache2_4.dll');
 DEFINE ('DB_HOST', '127.0.0.1');
 DEFINE ('DB_NAME', 'apache2');
 
-$dbc = mysqli_connect(DB_HOST, DB_ID, DB_PW);
-mysqli_select_db($dbc, DB_NAME);
+$dbc = mysqli_connect(DB_HOST, DB_ID, DB_PW) OR die("Khong the thiet lap ket noi den co so du lieu!");
+mysqli_select_db($dbc, DB_NAME) OR die("Khong the chon co so du lieu!");
 
 function escape_data($data, $trim=TRUE) {
 	global $dbc;
