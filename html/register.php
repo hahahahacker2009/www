@@ -118,16 +118,35 @@
 
 <form name="register" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
 <fieldset>
-<div align="center">
+<table border="0" width="100%" align="center">
 	<legend><h3>Nhap vao thong tin cua ban:</h3></legend>
-	<p><b>Ten hien thi:</b> <input type="text" name="disp_name" size="20" maxlength="40" required="required" /></p>
-	<p><b>Ten dang nhap:</b> <input type="text" name="username" size="20" maxlength="30" required="required" /></p>
-	<p><b>Dia chi email:</b> <input type="email" name="email" size="30" maxlength="60" required="required" /></p>
-	<p><b>Mat khau:</b> <input type="password" name="password" size="25" maxlength="48" required="required" /></p>
-	<p><b>Mat khau (xac nhan):</b> <input type="password" name="verify" size="25" maxlength="48" required="required" /></p>		
-	<input type="submit" name="register" value="Dang ki!" />
+	<tr>
+		<td width="25%">&nbsp</td>
+		<td width="20%"><b>Ten hien thi:</b></td> <td><input type="text" name="disp_name" size="20" maxlength="40" placeholder="Ten hien thi" required="required" /></td>
+	</tr>
+	<tr>
+		<td width="25%">&nbsp</td>
+		<td width="20%"><b>Ten dang nhap:</b></td> <td><input type="text" name="username" size="20" maxlength="30" placeholder="Ten dang nhap" required="required" /></td>
+	</tr>
+	<tr>	
+		<td width="25%">&nbsp</td>
+		<td width="20%"><b>Dia chi email:</b></td> <td><input type="email" name="email" size="30" maxlength="60" placeholder="Email" required="required" /></td>
+	</tr>
+	<tr>
+		<td width="25%">&nbsp</td>
+		<td width="20%"><b>Mat khau:</b></td> <td><input type="password" name="password" size="25" maxlength="48" placeholder="Mat khau" required="required" /></td>
+	</tr>
+	<tr>
+		<td width="25%">&nbsp</td>
+		<td width="20%"><b>Mat khau (xac nhan):</b></td> <td><input type="password" name="verify" size="25" maxlength="48" placeholder="Xac nhan" required="required" /></td>
+	</tr>
+	<tr>
+		<td width="25%">&nbsp</td>
+		<td width="20%"><input type="submit" name="register" value="Dang ki!" /></td>
+	</tr>
+</table>
 </fieldset>
-</div>
+
 </form>
 <!-- KET THUC NOI DUNG TRANG -->
 <?php
