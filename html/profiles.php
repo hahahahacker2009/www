@@ -1,10 +1,6 @@
 <?php
 	$charset = "iso-8859-1";
-	$page_title = "Intranet - Trang chu";
-	include("./include/head.html");
-?>
-
-<?php
+	$page_title = "Tai khoan nguoi dung";
 	include("./include/header.html");
 ?>
 
@@ -15,7 +11,7 @@
 	if (isset($_GET['username'])) {
 		require_once("../mysqli_connect.php");
 		$username = escape_data_in($_GET['username']);
-		$query = "SELECT disp_name, username, registration_date FROM user WHERE username='{$username}'";
+		$query = "SELECT disp_name, username, email, registration_date FROM user WHERE username='{$username}'";
 		echo "Cau truy van se duoc thuc hien: $query";
 		echo "<br /><br /><br /><br />";
 		$result = @mysqli_query($dbc, $query);
@@ -24,6 +20,7 @@
 		if ($assoc) {
 			echo "<h2>{$assoc['disp_name']} ({$assoc['username']})</h2>";
 			echo "<h3>Ngay dang ki: {$assoc['registration_date']} (YYYY-MM-DD)</h3>";
+			echo "<h4>Email nguoi dung: {$assoc['email']}</h4>";
 		} else {
 			echo "<h2 style=\"color: red;\">Khong tim thay nguoi dung!</h2>";
 		}
