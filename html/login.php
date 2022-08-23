@@ -15,7 +15,7 @@ include("./include/header.html");
 			$username = escape_data_in($_POST['username']);
 		} else {
 			$username = FALSE;
-			$msg .= "Nhap vao ten dang nhap cua ban!";
+			$msg .= "Nhap vao ten dang nhap cua ban! <br />";
 		}
 
 		if (!empty($_POST['password'])) {
@@ -23,30 +23,30 @@ include("./include/header.html");
 
 		} else {
 			$password = FALSE;
-			$msg .= "Nhap vao mat khau cua ban!";
+			$msg .= "Nhap vao mat khau cua ban! <br />";
 		}
 
 		if ($username && $password) {
-			$query = "SELECT disp_name FROM user WHERE username='$username' and password=SHA2('$password', 256)";
+			$query = "SELECT disp_name, username FROM user WHERE username='$username' and password=SHA2('$password', 256)";
 			echo "Cau truy van se duoc thuc hien: $query";
 			$result = @mysqli_query($dbc, $query);
 			$assoc = mysqli_fetch_assoc($result);
 			if ($assoc) {
 				$_SESSION['loggedin'] = TRUE;
 				$_SESSION['disp_name'] = $assoc['disp_name'];
-				$_SESSION['username'] = $username;
+				$_SESSION['username'] = $assoc['username'];
 				echo "<h2>Ban da dang nhap thanh cong!</h2>";
 				header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 				exit();
 			} else {
-				$msg = "Ten dang nhap hoac mat khau sai!";
+				$msg = "Khong the dang nhap vao tai khoan ban! <br />" . mysqli_error($dbc);
 			}
 
 			mysqli_free_result($result);
 			mysqli_close($dbc);
 
 		} else {
-			$msg .= "Hay thu lai.";
+			$msg .= "Hay thu lai. <br />";
 		}
 	}
 
