@@ -14,7 +14,7 @@
 <?php
 	if (isset($_GET['username'])) {
 		require_once("../mysqli_connect.php");
-		$username = escape_data($_GET['username']);
+		$username = escape_data_in($_GET['username']);
 		$query = "SELECT disp_name, username, registration_date FROM user WHERE username='{$username}'";
 		echo "Cau truy van se duoc thuc hien: $query";
 		echo "<br /><br /><br /><br />";
