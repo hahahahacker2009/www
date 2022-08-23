@@ -68,6 +68,8 @@
 	}
 ?>
 
+<h3><a href="<?php echo "http://{$_SERVER['HTTP_HOST']}/profiles.php?username={$_SESSION['username']}"; ?>">Ho so cong khai</a></h3>
+
 <form name="editinfo" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
 <fieldset>
 <table border="0" width="100%" align="center">
