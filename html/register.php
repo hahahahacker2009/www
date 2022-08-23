@@ -7,7 +7,7 @@
 <!-- BAT DAU NOI DUNG TRANG -->
 <h1>Dang ki tai khoan</h1>
 <h2>Dang ki tai khoan de co nhieu quyen truy cap hon vao cac tinh nang cua website</h2>
-<br /><br />
+
 
 <?php
 	if (isset($_SESSION['loggedin'])) {
@@ -72,7 +72,7 @@
 					header("Location: http://{$_SERVER['HTTP_HOST']}/index.php?action=registered&&name={$_POST['disp_name']}");
 					exit();	
 				} else {
-					$msg = '<h3>Ban khong the dang ki do mot loi he thong. Chung toi xin loi vi su co nay.</h3>' . mysqli_error($dbc);
+					$msg .= '<h3>Ban khong the dang ki do mot loi he thong. Chung toi xin loi vi su co nay.</h3>' . mysqli_error($dbc);
 				}
 			} else {
 				if ($exist['username'] == TRUE) {
