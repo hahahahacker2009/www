@@ -63,7 +63,7 @@
 		}
 
 	} else {
-		header("Location: http://{$_SERVER['HTTP_HOST']}/index.html");
+		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 		exit();
 	}
 ?>

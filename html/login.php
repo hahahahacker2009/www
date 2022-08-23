@@ -7,7 +7,7 @@ include("./include/header.html");
 <?php
 	require_once("../mysqli_connect.php");
 	if (isset($_SESSION['loggedin'])) {
-		header("Location: http://{$_SERVER['HTTP_HOST']}/index.html");
+		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 		exit();
 	}
 	if (isset($_POST['login'])) {

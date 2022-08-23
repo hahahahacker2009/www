@@ -13,7 +13,7 @@
 		session_destroy();
 		echo '<h2>Ban da dang xuat. Bam vao <a href="/">day</a> de ve trang chu.</h2>';
 	} else {
-		header("Location: http://{$_SERVER['HTTP_HOST']}/index.html");
+		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 		exit();
 	}
 ?>

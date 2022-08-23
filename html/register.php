@@ -11,7 +11,7 @@
 
 <?php
 	if (isset($_SESSION['loggedin'])) {
-		header("Location: http://{$_SERVER['HTTP_HOST']}/index.html");
+		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 		exit();
 	}
 	if (isset($_POST['register'])) {
