@@ -12,14 +12,14 @@ include("./include/header.html");
 	}
 	if (isset($_POST['login'])) {
 		if (!empty($_POST['username'])) {
-			$username = escape_data($_POST['username']);
+			$username = escape_data_in($_POST['username']);
 		} else {
 			$username = FALSE;
 			$msg .= "Nhap vao ten dang nhap cua ban!";
 		}
 
 		if (!empty($_POST['password'])) {
-			$password = escape_data($_POST['password']);
+			$password = escape_data_in($_POST['password']);
 
 		} else {
 			$password = FALSE;
@@ -41,8 +41,10 @@ include("./include/header.html");
 			} else {
 				$msg = "Ten dang nhap hoac mat khau sai!";
 			}
+
 			mysqli_free_result($result);
 			mysqli_close($dbc);
+
 		} else {
 			$msg .= "Hay thu lai.";
 		}
@@ -62,7 +64,7 @@ include("./include/header.html");
 	<legend><h3>Nhap vao thong tin dang nhap</h3></legend>
 	<tr>
 		<td width="30%">&nbsp</td>
-		<td width="13%"><b>Ten dang nhap:</b></td> <td><input type="text" name="username" size="20" maxlength="30" placeholder="Ten dang nhap" required="required" /></td>
+		<td width="13%"><b>Ten dang nhap:</b></td> <td><input type="text" name="username" size="20" maxlength="30" placeholder="Ten dang nhap" value="<?php if(isset($_POST['username'])) {echo stripslashes($_POST['username']);} ?>" required="required" /></td>
 	</tr>
 	<tr>
 		<td width="30%">&nbsp</td>
