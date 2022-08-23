@@ -1,6 +1,6 @@
 <?php
 	$charset = "iso-8859-1";
-	$page_title = "Intranet - Trang chu";
+	$page_title = "Dang xuat";
 	include("./include/header.html");
 ?>
 
