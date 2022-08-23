@@ -24,7 +24,7 @@
 		if (isset($_POST['update'])) {
 			if (!empty($_POST['disp_name'])) {
 				if ($_POST['disp_name'] != $assoc['username']) {
-					$disp_name = escape_data($_POST['disp_name']);
+					$disp_name = escape_data_in($_POST['disp_name']);
 					$query = "UPDATE user SET disp_name = '$disp_name' WHERE user_id='$userid' LIMIT 1";
 					$result = @mysqli_query($dbc, $query);
 					if (mysqli_affected_rows($dbc) == 1) {
@@ -37,26 +37,26 @@
 
 			if (!empty($_POST['username'])) {
 				if ($_POST['username'] != $assoc['username']) {
-					$username = escape_data($_POST['username']);
+					$username = escape_data_in($_POST['username']);
 					$query = "UPDATE user SET username = '$username' WHERE user_id='$userid' LIMIT 1";
 					$result = @mysqli_query($dbc, $query);
 					if (mysqli_affected_rows($dbc) == 1) {
-						echo 'Ten dang nhap cua ban da duoc thay doi.';
+						echo 'Ten dang nhap cua ban da duoc thay doi. <br />';
 					} else {
-						echo 'Da gap loi khi thay doi ten dang nhap cua ban!';
+						echo 'Da gap loi khi thay doi ten dang nhap cua ban! <br />';
 					}
 				}
 			}
 
 			if (!empty($_POST['email'])) {
 				if ($_POST['email'] != $assoc['email']) {
-					$email = escape_data($_POST['email']);
+					$email = escape_data_in($_POST['email']);
 					$query = "UPDATE user SET email = '$email' WHERE user_id='$userid' LIMIT 1";
 					$result = @mysqli_query($dbc, $query);
 					if (mysqli_affected_rows($dbc) == 1) {
-						echo 'Email cua ban da duoc thay doi.';
+						echo 'Email cua ban da duoc thay doi. <br />';
 					} else {
-						echo 'Da gap loi khi thay doi email cua ban!';
+						echo 'Da gap loi khi thay doi email cua ban! <br />';
 					}
 				}
 			}
