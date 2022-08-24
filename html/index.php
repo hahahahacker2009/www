@@ -19,7 +19,6 @@ include("./include/header.html");
 	if (isset($_SESSION['username'])) {
 		echo "<p>Ban dang dang nhap voi ten nguoi dung la {$_SESSION['username']}</p>";
 	}
-
 ?>
 
 
