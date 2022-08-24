@@ -104,22 +104,39 @@ include("./include/header.html");
 		echo "<form name=\"usertable\" action=\"{$_SERVER['PHP_SELF']}\" method=\"POST\">";
 		echo '<table align="center" cellspacing="2" cellpadding="2">
 			<tr>
-				<td width="10%">&nbsp</td>
-				<td width="13%" align="left"><b>ID</b></td>
-				<td width="13%" align="left"><b>Ten</b></td>
-				<td width="13%" align="left"><b>Email</b></td>
-				<td width="13%" align="left"><b>Ngay dang ky</b></td>
+				<td width="5%">&nbsp</td>
+				<td width="10%" align="left"><b>ID</b></td>
+				<td width="10%" align="left"><b>Ten</b></td>
+				<td width="10%" align="left"><b>Email</b></td>
+				<td width="10%" align="left"><b>Ngay dang ky</b></td>
+				<td width="10%" align="left"><b>Vai tro</b></td>
 			</tr>
 			';
 		while ($row = mysqli_fetch_row($result)) {
 			$name = escape_data_out("{$row[1]} ({$row[2]})");
+			$role_query_table = "SELECT role FROM user_mod WHERE username='{$row[2]}'";
+			$role_result_table = @mysqli_query($dbc, $role_query_table);
+			$role_assoc_table = mysqli_fetch_assoc($role_result_table);
+			if ($role_assoc_table) {
+				echo "
+				<tr>
+					<td width=\"5%\">&nbsp</td>
+					<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
+					<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
+					<td width=\"10%\" align=\"left\">$row[3]</td>
+					<td width=\"10%\" align=\"left\">$row[4]</td>
+					<td width=\"10%\" align=\"left\">{$role_assoc_table['role']}</td>
+				</tr>
+				\n";
+			}
 			echo "
 			<tr>
-				<td width=\"10%\">&nbsp</td>
-				<td width=\"13%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
-				<td width=\"13%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
-				<td width=\"13%\" align=\"left\">$row[3]</td>
-				<td width=\"13%\" align=\"left\">$row[4]</td>
+				<td width=\"5%\">&nbsp</td>
+				<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
+				<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
+				<td width=\"10%\" align=\"left\">$row[3]</td>
+				<td width=\"10%\" align=\"left\">$row[4]</td>
+				<td width=\"10%\" align=\"left\">Normal User</td>
 			</tr>
 			\n";
 		}
