@@ -43,6 +43,17 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 				$assoc = mysqli_fetch_assoc($result);
 				if ($assoc) {
 					$_SESSION['role'] = $assoc['role'];
+					switch($_SESSION['role']) {
+						case "ROOT":
+							$_SESSION['role_id'] = 0;
+							break;
+						case "ADMIN":
+							$_SESSION['role_id'] = 1;
+							break;
+						case "MOD":
+							$_SESSION['role_id'] = 2;
+							break;
+					}
 				}
 				header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 				exit();
