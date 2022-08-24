@@ -12,7 +12,7 @@ include("./include/header.html");
 	if (isset($_SESSION['loggedin'])) {
 		if (isset($_SESSION['role'])) {
 			if (isset($_SESSION['username'])) {
-				echo "<p>Ban dang dang nhap voi ten nguoi dung la {$_SESSION['username']}, vai tro quan tri cua ban la {$_SESSION['role']}</p>";
+				echo "<p>Ban dang dang nhap voi ten nguoi dung la {$_SESSION['username']}, vai tro quan tri cua ban la {$_SESSION['role']} ({$_SESSION['role_id']})</p>";
 			}
 		} else {
 			die("<p> Tai khoan cua ban khong co vai tro quan tri! </p>");
@@ -27,7 +27,7 @@ include("./include/header.html");
 	$msg = NULL;
 
 	if (isset($_POST['delete'])) {
-		if ($_SESSION['role'] == "ADMIN") {
+		if ($_SESSION['role_id'] < 2) {
 			$id = NULL;
 			if (isset($_POST['delete_id'])) {
 				$id = NULL;
@@ -40,16 +40,46 @@ include("./include/header.html");
 						$role_query = "SELECT role FROM user_mod WHERE username='{$assoc['username']}'";
 						$role_result = @mysqli_query($dbc, $role_query);
 						$role_assoc = mysqli_fetch_assoc($role_result);
-						if ($role_assoc['role'] != "ADMIN") {
-							$query = "DELETE FROM user WHERE user_id=$id AND username='{$assoc['username']}' LIMIT 1";
-							$result = @mysqli_query($dbc, $query);
-							if (mysqli_affected_rows($dbc) == 1) {
-								$msg .= "Da xoa nguoi dung {$assoc['username']}, ID $id <br />";
+						if ($role_assoc) {
+							switch ($role_assoc['role']) {
+								case "ROOT":
+									$target_role_id = 0;
+									break;
+								case "ADMIN":
+									$target_role_id = 1;
+									break;
+								case "MOD":
+									$target_role_id = 2;
+									break;
+							}
+							if ($target_role_id > $_SESSION['role_id']) {
+								$query = "DELETE FROM user WHERE user_id=$id AND username='{$assoc['username']}' LIMIT 1";
+								$result = @mysqli_query($dbc, $query);
+								if (mysqli_affected_rows($dbc) == 1) {
+									$msg .= "Da xoa quan tri vien {$assoc['username']}, ID $id khoi CSDL nguoi dung. <br />";
+								} else {
+									$msg .= "Khong the xoa quan tri vien {$assoc['username']}, ID $id khoi CSDL nguoi dung ! <br />";
+								}
+
+								$query = "DELETE FROM user_mod WHERE username='{$assoc['username']}' LIMIT 1";
+								$result = @mysqli_query($dbc, $query);
+								if (mysqli_affected_rows($dbc) == 1) {
+									$msg .= "Da xoa quan tri vien {$assoc['username']}, ID $id khoi CSDL quan tri. <br />";
+								} else {
+									$msg .= "Khong the xoa quan tri vien {$assoc['username']}, ID $id khoi CSDL quan tri ! <br />";
+								}
+
 							} else {
-								$msg .= "Khong the xoa nguoi dung {$assoc['username']}, ID $id ! <br />";
+								$msg .= "Tai khoan cua ban chua du quyen de thuc hien tac vu nay! <br />";
 							}
 						} else {
-							$msg .= "Hien tai chung toi khong cho phep xoa mot tai khoan co vai tro la ADMIN!";
+							$query = "DELETE FROM user WHERE user_id=$id AND username='{$assoc['username']}' LIMIT 1";
+								$result = @mysqli_query($dbc, $query);
+								if (mysqli_affected_rows($dbc) == 1) {
+									$msg .= "Da xoa nguoi dung {$assoc['username']}, ID $id <br />";
+								} else {
+									$msg .= "Khong the xoa nguoi dung {$assoc['username']}, ID $id ! <br />";
+								}
 						}
 					} else {
 						$msg .= "Khong tim thay nguoi dung! <br />";
