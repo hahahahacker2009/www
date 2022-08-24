@@ -1,0 +1,20 @@
+CREATE TABLE user (
+  user_id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  disp_name varchar(40) NOT NULL,
+  username varchar(30) NOT NULL,
+  email varchar(60) NOT NULL,
+  gender enum('M','F','U') NOT NULL DEFAULT 'U',
+  password char(64) NOT NULL,
+  registration_date date NOT NULL,
+  PRIMARY KEY (user_id),
+  UNIQUE KEY username (username),
+  UNIQUE KEY email (email),
+  KEY registration_date (registration_date)
+)
+
+CREATE TABLE user_mod (
+  username varchar(30) NOT NULL,
+  role enum('ROOT','ADMIN','MOD') NOT NULL,
+  UNIQUE KEY username_2 (username),
+  KEY username (username)
+)
