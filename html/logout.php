@@ -1,7 +1,7 @@
 <?php
 	$charset = "iso-8859-1";
 	$page_title = "Dang xuat";
-	include("./include/header.html");
+	include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 
 <!-- BAT DAU NOI DUNG TRANG -->
@@ -20,6 +20,6 @@
 <!-- KET THUC NOI DUNG TRANG -->
 
 <?php
-include("./include/footer.html");
+include("{$_SERVER['DOCUMENT_ROOT']}/include/footer.html");
 ?>
 

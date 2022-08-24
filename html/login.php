@@ -1,11 +1,12 @@
 <?php
 $charset = "iso-8859-1";
 $page_title = "Intranet - Trang chu";
-include("./include/header.html");
+include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 
 <?php
-	require_once("../mysqli_connect.php");
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/../mysqli_connect.php");
 	$msg = NULL;
 	if (isset($_SESSION['loggedin'])) {
 		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
@@ -86,6 +87,6 @@ include("./include/header.html");
 </form>
 
 <?php
-	include("./include/footer.html");
+	include("{$_SERVER['DOCUMENT_ROOT']}/include/footer.html");
 ?>
 

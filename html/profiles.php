@@ -1,16 +1,17 @@
 <?php
 	$charset = "iso-8859-1";
 	$page_title = "Tai khoan nguoi dung";
-	include("./include/header.html");
+	include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 
 <!-- BAT DAU NOI DUNG TRANG -->
 
 <h1>Ho so nguoi dung</h1>
 <?php
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_GET['search'])) {
 		if (!empty($_GET['username'])) {
-			require_once("../mysqli_connect.php");
+			require_once("{$_SERVER['DOCUMENT_ROOT']}/../mysqli_connect.php");
 			$username = escape_data_in($_GET['username']);
 			$query = "SELECT disp_name, username, email, registration_date FROM user WHERE username='{$username}'";
 			//echo "Cau truy van se duoc thuc hien: $query";
@@ -39,6 +40,6 @@
 </form>
 
 <?php
-	include("./include/footer.html");
+	include("{$_SERVER['DOCUMENT_ROOT']}/include/footer.html");
 ?>
 

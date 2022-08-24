@@ -1,7 +1,7 @@
 <?php
 	$charset = "iso-8859-1";
         $page_title = "Intranet - Trang chu";
-	include("./include/header.html");
+	include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 
 <!-- BAT DAU NOI DUNG TRANG -->
@@ -10,8 +10,9 @@
 <h2 style="color:red">Khuyen cao: Sau khi thay doi cai dat nguoi dung, ban nen dang xuat ra va dang nhap lai de co trai nghiem nguoi dung on dinh nhat!</h2>
 
 <?php
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_SESSION['loggedin'])) {
-		require_once("../mysqli_connect.php");
+		require_once("{$_SERVER['DOCUMENT_ROOT']}/../mysqli_connect.php");
 		$msg = NULL;
 		$query = "SELECT user_id, disp_name, username, email, password, registration_date FROM user WHERE username='{$_SESSION['username']}'";
 		$result = @mysqli_query($dbc, $query);
@@ -146,6 +147,6 @@
 
 <!-- KET THUC NOI DUNG TRANG -->
 <?php
-	include("./include/footer.html");
+	include("{$_SERVER['DOCUMENT_ROOT']}/include/footer.html");
 ?>
 

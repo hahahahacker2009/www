@@ -1,7 +1,7 @@
 <?php
 	$charset = "iso-8859-1";
 	$page_title = "Intranet - Trang chu";
-	include("./include/header.html");
+	include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 
 <!-- BAT DAU NOI DUNG TRANG -->
@@ -10,12 +10,13 @@
 
 
 <?php
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_SESSION['loggedin'])) {
 		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 		exit();
 	}
 	if (isset($_POST['register'])) {
-		require_once("../mysqli_connect.php");
+		require_once("{$_SERVER['DOCUMENT_ROOT']}/../mysqli_connect.php");
 		$msg = NULL;
 		if (!empty($_POST['disp_name'])) {
 			$disp_name = escape_data_in($_POST['disp_name']);
@@ -129,7 +130,7 @@
 </form>
 <!-- KET THUC NOI DUNG TRANG -->
 <?php
-include("./include/footer.html");
+include("{$_SERVER['DOCUMENT_ROOT']}/include/footer.html");
 ?>
 
 

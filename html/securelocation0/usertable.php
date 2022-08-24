@@ -8,6 +8,7 @@ include("./include/header.html");
 <h2>Xem va xoa nguoi dung. Chi ADMIN moi co the xoa nguoi dung.</h2>
 <p style="color:red">Luu y: Thao tac xoa nguoi dung la KHONG THE HOAN TAC!</p>
 <?php
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_SESSION['loggedin'])) {
 		if (isset($_SESSION['role'])) {
 			if (isset($_SESSION['username'])) {

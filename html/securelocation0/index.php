@@ -8,6 +8,7 @@ include("./include/header.html");
 <h2>Chao mung ban den voi trang chu quan tri cua website!</h2>
 <p>Quan tri website dong cua ban</p>
 <?php
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_SESSION['loggedin'])) {
 		if (isset($_SESSION['role'])) {
 			if (isset($_SESSION['username'])) {

@@ -1,13 +1,14 @@
 <?php
 $charset = "iso-8859-1";
 $page_title = "Intranet - Trang chu";
-include("./include/header.html");
+include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 <!-- BAT DAU NOI DUNG TRANG -->
 <h1>Trang chu</h1>
 <h2>Chao mung ban den voi trang chu cua website!</h2>
 <p>Cung thiet ke website dong bang Apache, PHP va MariaDB!</p>
 <?php
+	require_once("./include/config.php");
 	if (isset($_GET['action'])) {
 		if ($_GET['action'] == "registered") {
 			if (isset($_GET['name'])) {
@@ -24,5 +25,5 @@ include("./include/header.html");
 
 <!-- KET THUC NOI DUNG TRANG -->
 <?php
-include("./include/footer.html");
+include("{$_SERVER['DOCUMENT_ROOT']}/include/footer.html");
 ?>
