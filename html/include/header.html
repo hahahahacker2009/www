@@ -18,6 +18,9 @@ if (!isset($_SESSION['loggedin'])) {
 } else {
 	echo '<a class="links" href="/settings.php">Cai dat</a> ';
 	echo '<a class="links" href="/logout.php">Dang xuat</a> ';
+	if (isset($_SESSION['role'])) {
+		echo '<a style="color: red" class="links" href="/securelocation0/">Quan tri</a> ';
+	}
 }
 ?>
 </p>
