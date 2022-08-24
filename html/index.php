@@ -8,7 +8,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 <h2>Chao mung ban den voi trang chu cua website!</h2>
 <p>Cung thiet ke website dong bang Apache, PHP va MariaDB!</p>
 <?php
-	require_once("./include/config.php");
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_GET['action'])) {
 		if ($_GET['action'] == "registered") {
 			if (isset($_GET['name'])) {
