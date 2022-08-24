@@ -46,5 +46,13 @@ function escape_data_in($data, $trim=TRUE) {
 	return mysqli_real_escape_string($dbc, trim(htmlspecialchars(strip_tags($data))));
 }
 
+function escape_data_out($data, $trim=TRUE) {
+	if ($trim=FALSE) {
+		return stripslashes(htmlspecialchars(strip_tags($data)));
+	} else 
+
+	return stripslashes(trim(htmlspecialchars(strip_tags($data))));
+}
+
 ?>
 
