@@ -86,7 +86,7 @@ include("./include/header.html");
 			<tr>
 				<td width=\"10%\">&nbsp</td>
 				<td width=\"13%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
-				<td width=\"13%\" align=\"left\">$name</td>
+				<td width=\"13%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
 				<td width=\"13%\" align=\"left\">$row[3]</td>
 				<td width=\"13%\" align=\"left\">$row[4]</td>
 			</tr>
