@@ -12,7 +12,7 @@ include("./include/header.html");
 	if (isset($_SESSION['loggedin'])) {
 		if (isset($_SESSION['role'])) {
 			if (isset($_SESSION['username'])) {
-				echo "<p>Ban dang dang nhap voi ten nguoi dung la {$_SESSION['username']}, vai tro quan tri cua ban la {$_SESSION['role']}</p>";
+				echo "<p>Ban dang dang nhap voi ten nguoi dung la {$_SESSION['username']}, vai tro quan tri cua ban la {$_SESSION['role']} ({$_SESSION['role_id']})</p>";
 			}
 		} else {
 			echo "<p> Tai khoan cua ban khong co vai tro quan tri! </p>";
