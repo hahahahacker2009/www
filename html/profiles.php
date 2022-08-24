@@ -31,6 +31,11 @@
 
 <!-- KET THUC NOI DUNG TRANG -->
 
+<form name="searchuser" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
+<input type="text" name="username" placeholder="Tim kiem bang ten nguoi dung" size="40" maxlength="30" />
+<input type="submit" name="search" value="Tim kiem" />
+</form>
+
 <?php
 	include("./include/footer.html");
 ?>
