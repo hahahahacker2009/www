@@ -6,6 +6,7 @@ include("./include/header.html");
 
 <?php
 	require_once("../mysqli_connect.php");
+	$msg = NULL;
 	if (isset($_SESSION['loggedin'])) {
 		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 		exit();
@@ -36,6 +37,12 @@ include("./include/header.html");
 				$_SESSION['disp_name'] = $assoc['disp_name'];
 				$_SESSION['username'] = $assoc['username'];
 				echo "<h2>Ban da dang nhap thanh cong!</h2>";
+				$query = "SELECT role FROM user_mod WHERE username='$username'";
+				$result = @mysqli_query($dbc, $query);
+				$assoc = mysqli_fetch_assoc($result);
+				if ($assoc) {
+					$_SESSION['role'] = $assoc['role'];
+				}
 				header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 				exit();
 			} else {
