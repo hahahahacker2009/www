@@ -128,17 +128,18 @@ include("./include/header.html");
 					<td width=\"10%\" align=\"left\">{$role_assoc_table['role']}</td>
 				</tr>
 				\n";
+			} else {
+				echo "
+				<tr>
+					<td width=\"5%\">&nbsp</td>
+					<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
+					<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
+					<td width=\"10%\" align=\"left\">$row[3]</td>
+					<td width=\"10%\" align=\"left\">$row[4]</td>
+					<td width=\"10%\" align=\"left\">Normal User</td>
+				</tr>
+				\n";
 			}
-			echo "
-			<tr>
-				<td width=\"5%\">&nbsp</td>
-				<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
-				<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
-				<td width=\"10%\" align=\"left\">$row[3]</td>
-				<td width=\"10%\" align=\"left\">$row[4]</td>
-				<td width=\"10%\" align=\"left\">Normal User</td>
-			</tr>
-			\n";
 		}
 		echo '</table>';
 		echo '<br /><div align="center"><input type="submit" name="delete" value="Xoa nguoi dung" /></div>';
