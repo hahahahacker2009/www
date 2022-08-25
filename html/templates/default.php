@@ -17,4 +17,3 @@
 <?php
 	include("./include/footer.html");
 ?>
-
