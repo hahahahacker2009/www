@@ -55,4 +55,3 @@ function escape_data_out($data, $trim=TRUE) {
 }
 
 ?>
-
