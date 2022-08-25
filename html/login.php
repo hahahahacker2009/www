@@ -12,6 +12,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
 		exit();
 	}
+
 	if (isset($_POST['login'])) {
 		if (!empty($_POST['username'])) {
 			$username = escape_data_in($_POST['username']);

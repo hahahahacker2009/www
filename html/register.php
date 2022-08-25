@@ -8,7 +8,6 @@
 <h1>Dang ki tai khoan</h1>
 <h2>Dang ki tai khoan de co nhieu quyen truy cap hon vao cac tinh nang cua website</h2>
 
-
 <?php
 	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_SESSION['loggedin'])) {
@@ -132,5 +131,3 @@
 <?php
 include("{$_SERVER['DOCUMENT_ROOT']}/include/footer.html");
 ?>
-
-
