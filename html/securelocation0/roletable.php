@@ -1,6 +1,6 @@
 <?php
 $charset = "iso-8859-1";
-$page_title = "Intranet - Trang chu";
+$page_title = "Quan li vai tro";
 include("./include/header.html");
 ?>
 <!-- BAT DAU NOI DUNG TRANG -->
@@ -8,18 +8,18 @@ include("./include/header.html");
 <h2>Quan li vai tro quan tri, cap vai tro quan tri, xoa vai tro quan tri</h2>
 <p>Quan tri website dong cua ban</p>
 <?php
-	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
+	//require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	require_once("./auth.php");
 
 	$msg = NULL;
-	$allowed_role = ["ADMIN", "MOD"];
+	$allowed_role = ["ADMIN", "MOD", 2];
 
 	if (isset($_POST['update_role'])) {
 		if ($_SESSION['role_id'] < 2) {
 			if (isset($_POST['role'])) {
 				$role = NULL;
 				foreach ($_POST['role'] as $key => $value ) {
-					if ($value != 0 && $value != 2) {
+					if ($value != 0) {
 						$role = $value;
 						if (in_array($role, $allowed_role)) {
 							$query = "SELECT mod_id FROM user_mod WHERE username=$key";
@@ -44,12 +44,23 @@ include("./include/header.html");
 									}
 
 									if ($target_role_id > $_SESSION['role_id']) {
-										$query = "UPDATE user_mod SET role='$role' WHERE username=$key LIMIT 1";
-										$result = @mysqli_query($dbc, $query);
-										if (mysqli_affected_rows($dbc) == 1) {
-										        $msg .= "Da cap nhat vai tro cua quan tri vien $key thanh $role <br />";
+										if ($value == 2) {
+											$query = "DELETE FROM user_mod WHERE username=$key LIMIT 1;";
+											echo "Cau truy van se duoc thuc hien: $query";
+											$result = @mysqli_query($dbc, $query);
+											if (mysqli_affected_rows($dbc) == 1) {
+												$msg .= "Da xoa quan tri vien $key khoi CSDL quan tri! <br />";
+											} else {
+												$msg .= "Khong the xoa quan tri vien $key khoi CSDL quan tri! <br />";
+											}
 										} else {
-										        $msg .= "Khong the cap nhat vai tro cua quan tri vien $key thanh $role! <br />";
+											$query = "UPDATE user_mod SET role='$role' WHERE username=$key LIMIT 1";
+											$result = @mysqli_query($dbc, $query);
+											if (mysqli_affected_rows($dbc) == 1) {
+											        $msg .= "Da cap nhat vai tro cua quan tri vien $key thanh $role <br />";
+											} else {
+											        $msg .= "Khong the cap nhat vai tro cua quan tri vien $key thanh $role! <br />";
+											}
 										}
 									} else {
 										$msg .= "Tai khoan cua ban chua du quyen de thuc hien tac vu nay! <br />";
@@ -63,24 +74,12 @@ include("./include/header.html");
 						} else {
 							die("Gia tri khong an toan!");
 						}
-					} else {
-						if ($value == 2) {
-							$query = "DELETE FROM user_mod WHERE username=$key LIMIT 1;";
-							echo "Cau truy van se duoc thuc hien: $query";
-				                               $result = @mysqli_query($dbc, $query);
-							if (mysqli_affected_rows($dbc) == 1) {
-								$msg .= "Da xoa quan tri vien $key khoi CSDL quan tri! <br />";
-							} else {
-								$msg .= "Khong the xoa quan tri vien $key khoi CSDL quan tri! <br />";
-			                                }
-			                                mysqli_free_result($result);
-							}
-						}
 					}
 				}
 			} else {
 				$msg .= "Vai tro cua tai khoan ban khong cho phep thuc hien tac vu nay. <br />";
 			}
+		}
 	}
 
 	if (isset($msg)) {
@@ -190,13 +189,14 @@ include("./include/header.html");
         mysqli_close($dbc);
 ?>
 
-<br /><br /><br /><br />
+<br /><br /><br />
 <form name="add_mod" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-<input type="text" name="newmod_username" placeholder="Ten nguoi dung" size="20" maxlength="30" required="required" /><br /><br />
-<label for="newrole"><input type="radio" name="newrole" value="ADMIN" />ADMIN</label>
-<label for="newrole"><input type="radio" name="newrole" value="MOD" />MOD</label>
-<br /><br />
-<input type="submit" name="add_new_mod" value="Them quan tri vien!" />
+<div align="center"><input type="text" name="newmod_username" placeholder="Ten nguoi dung" size="20" maxlength="30" required="required" /></div>
+<br />
+<div align="center"><label for="newrole"><input type="radio" name="newrole" value="ADMIN" />ADMIN</label></div>
+<div align="center"><label for="newrole"><input type="radio" name="newrole" value="MOD" />MOD</label></div>
+<br />
+<div align="center"><input type="submit" name="add_new_mod" value="Them quan tri vien!" /></div>
 </form>
 
 <!-- KET THUC NOI DUNG TRANG -->
