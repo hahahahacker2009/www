@@ -8,6 +8,7 @@
 
 <h1>Cai dat nguoi dung</h1>
 <h2 style="color:red">Khuyen cao: Sau khi thay doi cai dat nguoi dung, ban nen dang xuat ra va dang nhap lai de co trai nghiem nguoi dung on dinh nhat!</h2>
+<h2 style="color:red">CANH BAO: Thao tac xoa tai khoan cua ban la KHONG THE HOAN TAC!!</h2>
 
 <?php
 	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
@@ -83,10 +84,35 @@
 								}
 							}
 						} else {
-							$msg .= "Mat khau khong khop voi xac nhan!";
+							$msg .= "Mat khau khong khop voi xac nhan! <br />";
 						}
 					}
 					
+				} else {
+					$msg .= "Mat khau hien tai khong dung! <br />";
+				}
+			} else {
+				$msg .= "Truoc khi thay doi thong tin, NHAP VAO MAT KHAU CUA BAN! <br />";
+			}
+		}
+
+		if (isset($_POST['delete_account'])) {
+			if (!empty($_POST['auth'])) {
+				$query = "SELECT user_id FROM user WHERE username='{$assoc['username']}' AND password=SHA2('{$_POST['auth']}', 256)";
+                                #echo "Cau truy van se duoc thuc hien: $query";
+                                $result = @mysqli_query($dbc, $query);
+                                $num = mysqli_num_rows($result);
+				if ($num == 1) {
+					$query = "DELETE FROM user WHERE username='${assoc['username']}' LIMIT 1";
+					$result = @mysqli_query($dbc, $query);
+					if (mysqli_affected_rows($dbc) == 1) {
+						$msg .= "Tai khoan cua ban da bi xoa. <br />";
+						$_SESSION = array();
+						session_destroy();
+						setcookie(session_name(), '', time()-1, '/', 0);
+					} else {
+						$msg .= "Khong the xoa tai khoan cua ban! <br />";
+					}
 				} else {
 					$msg .= "Mat khau hien tai khong dung! <br />";
 				}
@@ -114,32 +140,33 @@
 <table border="0" width="100%" align="center">
 	<legend><h3>Thong tin cua ban:</h3></legend>
 	<tr>
-		<td width="30%">&nbsp</td>
-		<td width="25%"><b>Mat khau hien tai:</b></td> <td><input type="password" name="auth" size="20" maxlength="40" placeholder="Mat khau hien tai" required="required" /></td>
+		<td width="10%">&nbsp</td>
+		<td width="15%"><b>Mat khau hien tai:</b></td> <td><input type="password" name="auth" size="20" maxlength="40" placeholder="Mat khau hien tai" required="required" /></td>
 	</tr>
 	<tr>
-		<td width="30%">&nbsp</td>
-		<td width="20%"><b>Ten hien thi:</b></td> <td><input type="text" name="disp_name" size="20" maxlength="40" placeholder="<?php echo $assoc['disp_name']; ?>" /></td>
+		<td width="10%">&nbsp</td>
+		<td width="15%"><b>Ten hien thi:</b></td> <td><input type="text" name="disp_name" size="20" maxlength="40" placeholder="<?php echo $assoc['disp_name']; ?>" /></td>
 	</tr>
 	<tr>
-		<td width="30%">&nbsp</td>
-		<td width="25%"><b>Ten dang nhap:</b></td> <td><input type="text" name="username" size="20" maxlength="30" placeholder="<?php echo $assoc['username']; ?>" /></td>
+		<td width="10%">&nbsp</td>
+		<td width="15%"><b>Ten dang nhap:</b></td> <td><input type="text" name="username" size="20" maxlength="30" placeholder="<?php echo $assoc['username']; ?>" /></td>
 	</tr>
 	<tr>	
-		<td width="30%">&nbsp</td>
-		<td width="25%"><b>Dia chi email:</b></td> <td><input type="email" name="email" size="30" maxlength="60" placeholder="<?php echo $assoc['email']; ?>" /></td>
+		<td width="10%">&nbsp</td>
+		<td width="15%"><b>Dia chi email:</b></td> <td><input type="email" name="email" size="30" maxlength="60" placeholder="<?php echo $assoc['email']; ?>" /></td>
 	</tr>
 	<tr>	
-		<td width="30%">&nbsp</td>
-		<td width="25%"><b>Mat khau (moi):</b></td> <td><input type="password" name="passwd" size="30" maxlength="60" placeholder="Mat khau moi" /></td>
+		<td width="10%">&nbsp</td>
+		<td width="15%"><b>Mat khau (moi):</b></td> <td><input type="password" name="passwd" size="30" maxlength="60" placeholder="Mat khau moi" /></td>
 	</tr>
 	<tr>	
-		<td width="30%">&nbsp</td>
-		<td width="25%"><b>Xac nhan:</b></td> <td><input type="password" name="confirm" size="30" maxlength="60" placeholder="Xac nhan" /></td>
+		<td width="10%">&nbsp</td>
+		<td width="15%"><b>Xac nhan:</b></td> <td><input type="password" name="confirm" size="30" maxlength="60" placeholder="Xac nhan" /></td>
 	</tr>
 	<tr>
-		<td width="30%">&nbsp</td>
-		<td width="25%"><input type="submit" name="update" value="Thay doi thong tin" /></td>
+		<td width="10%">&nbsp</td>
+		<td width="15%"><input type="submit" name="update" value="Thay doi thong tin" /></td>
+		<td width="15%"><input type="submit" name="delete_account" value="Xoa tai khoan cua toi"></td>
 	</tr>
 </table>
 </fieldset>
