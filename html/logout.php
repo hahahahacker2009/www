@@ -11,6 +11,7 @@
 	if (isset($_SESSION['loggedin'])) {
 		$_SESSION = array();
 		session_destroy();
+		setcookie(session_name(), '', time()-1, '/', 0);
 		header("Location: http://{$_SERVER['HTTP_HOST']}/index.php");
                 exit();
 	} else {
