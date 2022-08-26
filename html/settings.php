@@ -107,9 +107,8 @@
 					$result = @mysqli_query($dbc, $query);
 					if (mysqli_affected_rows($dbc) == 1) {
 						$msg .= "Tai khoan cua ban da bi xoa. <br />";
-						$_SESSION = array();
-						session_destroy();
-						setcookie(session_name(), '', time()-1, '/', 0);
+						header("Location: {$_SERVER['HTTP_HOST']}/logout.php");
+						exit();
 					} else {
 						$msg .= "Khong the xoa tai khoan cua ban! <br />";
 					}
