@@ -47,6 +47,8 @@ include("./include/header.html");
 									$msg .= "Khong the xoa quan tri vien {$assoc['username']}, ID $id khoi CSDL nguoi dung ! <br />";
 								}
 
+								/*
+
 								$query = "DELETE FROM user_mod WHERE username='{$assoc['username']}' LIMIT 1";
 								$result = @mysqli_query($dbc, $query);
 								if (mysqli_affected_rows($dbc) == 1) {
@@ -54,6 +56,10 @@ include("./include/header.html");
 								} else {
 									$msg .= "Khong the xoa quan tri vien {$assoc['username']}, ID $id khoi CSDL quan tri ! <br />";
 								}
+
+								 */
+
+								// use a foreign key and link user(username) column to user_mod(username)
 
 							} else {
 								$msg .= "Tai khoan cua ban chua du quyen de thuc hien tac vu nay! <br />";
