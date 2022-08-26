@@ -1,5 +1,7 @@
 <?php
 
+$_SERVER['PHP_SELF'] = htmlspecialchars(strip_tags(trim($_SERVER['PHP_SELF'])));
+
 function logaccess() {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$msg = "{$_SERVER['REQUEST_METHOD']} {$_SERVER['SCRIPT_NAME']} {$_SERVER['SERVER_PROTOCOL']}
