@@ -76,7 +76,6 @@ include("./include/header.html");
 					}
 				}
 			}
-		}
 	} else {
 		$msg .= "Vai tro cua ban khong cho phep thuc hien tac vu nay. <br />";
 	}
