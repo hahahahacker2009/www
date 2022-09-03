@@ -12,7 +12,7 @@ include("./include/header.html");
 	require_once("./auth.php");
 	$msg = NULL;
 
-	if (isset($_POST['delete']) && $_SESSION['role_id'] < 2) {
+	if (isset($_POST['delete']) AND $_SESSION['role_id'] < 2) {
 		if (isset($_POST['delete_id'])) {
 			$id = NULL;
 			foreach ($_POST['delete_id'] as $key => $value ) {
