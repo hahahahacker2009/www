@@ -1,8 +1,8 @@
 CREATE TABLE user (
   user_id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  disp_name varchar(40) NOT NULL,
-  username varchar(30) NOT NULL,
-  email varchar(60) NOT NULL,
+  disp_name varchar(48) NOT NULL,
+  username varchar(32) NOT NULL,
+  email varchar(64) NOT NULL,
   password char(64) NOT NULL,
   registration_date date NOT NULL,
   PRIMARY KEY (user_id),
@@ -13,9 +13,9 @@ CREATE TABLE user (
 
 CREATE TABLE moderator (
   moderator_id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id MEDIUMINT(8) UNSIGNED NOT NULL,
   role enum('ROOT','ADMIN','MOD') NOT NULL,
-  PRIMARY KEY (moderator),
+  PRIMARY KEY (moderator_id),
   CONSTRAINT fk_user_id
   FOREIGN KEY (user_id) REFERENCES user (user_id)
   ON DELETE CASCADE
