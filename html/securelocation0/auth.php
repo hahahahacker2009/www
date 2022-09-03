@@ -6,7 +6,7 @@
 	require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	if (isset($_SESSION['loggedin'])) {
 		require_once("{$_SERVER['DOCUMENT_ROOT']}/../mysqli_connect.php");
-		$query = "SELECT role FROM user_mod WHERE username='{$_SESSION['username']}'";
+		$query = "SELECT role FROM moderator WHERE user_id='{$_SESSION['user_id']}'";
 		$result = @mysqli_query($dbc, $query);
 		$num = mysqli_num_rows($result);
 		if ($num > 0) {
