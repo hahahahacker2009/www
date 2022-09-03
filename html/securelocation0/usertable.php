@@ -13,7 +13,7 @@ include("./include/header.html");
 	$msg = NULL;
 
 	if ($_SESSION['role_id'] < 2) {
-		if (isset($_POST['delete']) {
+		if (isset($_POST['delete'])) {
 			if (isset($_POST['delete_id'])) {
 				$id = NULL;
 				foreach ($_POST['delete_id'] as $key => $value ) {
