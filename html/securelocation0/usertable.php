@@ -101,7 +101,7 @@ include("./include/header.html");
 			';
 		while ($row = mysqli_fetch_row($result)) {
 			$name = escape_data_out("{$row[1]} ({$row[2]})");
-			$role_query_table = "SELECT role FROM user_mod WHERE username='{$row[2]}'";
+			$role_query_table = "SELECT role FROM moderator WHERE user_id'{$row[2]}'";
 			$role_result_table = @mysqli_query($dbc, $role_query_table);
 			$role_assoc_table = mysqli_fetch_assoc($role_result_table);
 			if ($role_assoc_table) {
