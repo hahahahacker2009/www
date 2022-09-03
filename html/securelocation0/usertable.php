@@ -36,6 +36,7 @@ include("./include/header.html");
 								case "MOD":
 									$target_role_id = 2;
 									break;
+							}
 
 							if ($target_role_id > $_SESSION['role_id']) {
 								$query = "DELETE FROM user WHERE user_id=$id AND username='{$assoc['username']}' LIMIT 1";
