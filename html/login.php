@@ -39,7 +39,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 				$_SESSION['disp_name'] = $assoc['disp_name'];
 				$_SESSION['username'] = $assoc['username'];
 				echo "<h2>Ban da dang nhap thanh cong!</h2>";
-				$query = "SELECT role FROM mod WHERE user_id='{$assoc['user_id']}'";
+				$query = "SELECT role FROM moderator WHERE user_id='{$assoc['user_id']}'";
 				$result = @mysqli_query($dbc, $query);
 				$assoc = mysqli_fetch_assoc($result);
 				if ($assoc) {
