@@ -13,14 +13,14 @@
 		if (!empty($_GET['username'])) {
 			require_once("{$_SERVER['DOCUMENT_ROOT']}/../mysqli_connect.php");
 			$username = escape_data_in($_GET['username']);
-			$query = "SELECT disp_name, username, email, registration_date FROM user WHERE username='{$username}'";
+			$query = "SELECT user_id, disp_name, username, email, registration_date FROM user WHERE username='{$username}'";
 			//echo "Cau truy van se duoc thuc hien: $query";
 			echo "<br /><br /><br /><br />";
 			$result = @mysqli_query($dbc, $query);
 			$assoc = mysqli_fetch_assoc($result);
 		
 			if ($assoc) {
-				$role_query = "SELECT role FROM user_mod WHERE username='{$assoc['username']}'";
+				$role_query = "SELECT role FROM mod WHERE user_id='{$assoc['user_id']}'";
 				$role_result = @mysqli_query($dbc, $role_query);
 				$role_assoc = mysqli_fetch_assoc($role_result);
 				if ($role_assoc) {
