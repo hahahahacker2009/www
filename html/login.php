@@ -22,7 +22,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 		}
 
 		if (!empty($_POST['password'])) {
-			$password = sha2("sha256", escape_data_in($_POST['password']));
+			$password = hash("sha256", escape_data_in($_POST['password']));
 
 		} else {
 			$password = FALSE;
