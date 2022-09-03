@@ -11,10 +11,11 @@ CREATE TABLE user (
   KEY registration_date (registration_date)
 ) ENGINE = InnoDB;
 
-CREATE TABLE mod (
-  mod_id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE moderator (
+  moderator_id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   role enum('ROOT','ADMIN','MOD') NOT NULL,
+  PRIMARY KEY (moderator),
   CONSTRAINT fk_user_id
   FOREIGN KEY (user_id) REFERENCES user (user_id)
   ON DELETE CASCADE
