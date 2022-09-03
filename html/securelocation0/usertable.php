@@ -70,6 +70,7 @@ include("./include/header.html");
 									$msg .= "Khong the xoa nguoi dung {$assoc['username']}, ID $id ! <br />";
 								}
 						}
+
 					} else {
 						$msg .= "Khong tim thay nguoi dung! <br />";
 					}
