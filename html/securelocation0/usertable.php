@@ -64,11 +64,11 @@ include("./include/header.html");
 						} else {
 							$query = "DELETE FROM user WHERE user_id=$id AND username='{$assoc['username']}' LIMIT 1";
 							$result = @mysqli_query($dbc, $query);
-								if (mysqli_affected_rows($dbc) == 1) {
-									$msg .= "Da xoa nguoi dung {$assoc['username']}, ID $id <br />";
-								} else {
-									$msg .= "Khong the xoa nguoi dung {$assoc['username']}, ID $id ! <br />";
-								}
+							if (mysqli_affected_rows($dbc) == 1) {
+								$msg .= "Da xoa nguoi dung {$assoc['username']}, ID $id <br />";
+							} else {
+								$msg .= "Khong the xoa nguoi dung {$assoc['username']}, ID $id ! <br />";
+							}
 						}
 
 					} else {
