@@ -36,6 +36,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 			$assoc = mysqli_fetch_assoc($result);
 			if ($assoc) {
 				$_SESSION['loggedin'] = TRUE;
+				$_SESSION['user_id'] = $assoc['user_id'];
 				$_SESSION['disp_name'] = $assoc['disp_name'];
 				$_SESSION['username'] = $assoc['username'];
 				echo "<h2>Ban da dang nhap thanh cong!</h2>";
