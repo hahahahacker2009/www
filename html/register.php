@@ -41,7 +41,7 @@
 		if (!empty($_POST['password'])) {
 			if ($_POST['password'] == $_POST['verify']) {
 				if (strlen($_POST['password']) >= 8) {
-					$password = escape_data_in($_POST['password']); 
+					$password = hash("sha256", escape_data_in($_POST['password'])); 
 				} else {
 					$password = FALSE;
 					$msg .= "Mat khau phai co do dai tu 8 den 48 ki tu! <br />";
