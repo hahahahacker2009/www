@@ -86,7 +86,7 @@ include("./include/header.html");
 		echo "<p style=\"color: red;\">{$msg}</p>";
 	}
 
-	$query = "SELECT user_id, disp_name, username, email, registration_date FROM user ORDER BY registration_date DESC";
+	$query = "SELECT u.user_id, disp_name, username, email, registration_date, role FROM user as u LEFT JOIN moderator as m ON u.user_id=m.user_id ORDER BY registration_date DESC;";
 	$result = @mysqli_query($dbc, $query);
 	$num = mysqli_num_rows($result);
 
@@ -104,33 +104,23 @@ include("./include/header.html");
 			</tr>
 			';
 		while ($row = mysqli_fetch_row($result)) {
-			$name = escape_data_out("{$row[1]} ({$row[2]})");
-			$role_query_table = "SELECT role FROM moderator WHERE user_id={$row[0]}";
-			$role_result_table = @mysqli_query($dbc, $role_query_table);
-			$role_assoc_table = mysqli_fetch_assoc($role_result_table);
-			if ($role_assoc_table) {
-				echo "
-				<tr>
-					<td width=\"5%\">&nbsp</td>
-					<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
-					<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
-					<td width=\"10%\" align=\"left\">$row[3]</td>
-					<td width=\"10%\" align=\"left\">$row[4]</td>
-					<td width=\"10%\" align=\"left\">{$role_assoc_table['role']}</td>
-				</tr>
-				\n";
+			$name = "{$row[1]} ({$row[2]})";
+			echo "
+			<tr>
+				<td width=\"5%\">&nbsp</td>
+				<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
+				<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
+				<td width=\"10%\" align=\"left\">$row[3]</td>
+				<td width=\"10%\" align=\"left\">$row[4]</td>
+			";
+			if (isset($row[5])) {
+				echo "<td width=\"10%\" align=\"left\">{$row[5]}</td>";
 			} else {
-				echo "
-				<tr>
-					<td width=\"5%\">&nbsp</td>
-					<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
-					<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
-					<td width=\"10%\" align=\"left\">$row[3]</td>
-					<td width=\"10%\" align=\"left\">$row[4]</td>
-					<td width=\"10%\" align=\"left\">Normal User</td>
-				</tr>
-				\n";
+				echo "<td width=\"10%\" align=\"left\">Normal User</td>";
 			}
+			echo "
+			</tr>
+			\n";
 		}
 		echo '</table>';
 		echo '<br /><div align="center"><input type="submit" name="delete" value="Xoa nguoi dung" /></div>';
