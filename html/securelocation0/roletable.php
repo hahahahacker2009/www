@@ -13,135 +13,81 @@ include("./include/header.html");
 
 	$msg = NULL;
 	$allowed_role = ["ADMIN", "MOD", 2];
+	$process_okay = FALSE;
 
-	if (isset($_POST['update_role'])) {
-		if ($_SESSION['role_id'] < 2) {
-			if (isset($_POST['role'])) {
-				$role = NULL;
-				foreach ($_POST['role'] as $key => $value ) {
-					if ($value != 0) {
-						$role = $value;
-						if (in_array($role, $allowed_role)) {
-							$query = "SELECT mod_id FROM user_mod WHERE username=$key";
-							$result = @mysqli_query($dbc, $query);
-							$num = mysqli_num_rows($result);
-							if ($num == 1) {
-								$role_query = "SELECT role FROM user_mod WHERE username=$key";
-								$role_result = @mysqli_query($dbc, $role_query);
-								$role_assoc = mysqli_fetch_assoc($role_result);
+	if ($_SESSION['role_id'] < 2) {
+		if (isset($_POST['update_role']) && isset($_POST['role'])) {
+			$role = NULL;
+			foreach ($_POST['role'] as $key => $value ) {
+				if ($value != 0) {
+					$role = $value;
+					if (in_array($role, $allowed_role)) {
+						$query = "SELECT username, moderator_id, role FROM user AS u, moderator AS m WHERE u.user_id=m.user_id AND u.user_id=$key";
+						$result = @mysqli_query($dbc, $query);
+						if (mysqli_num_rows($result) == 1) {
+							$assoc = mysqli_fetch_assoc($result);
+							$target_user = $assoc['username'];
+							$target_role = $assoc['role'];
+							switch ($target_role) {
+	                                                        case "ROOT":
+	                                                                $target_role_id = 0;
+	                                                                break;
+	                                                        case "ADMIN":
+	                                                                $target_role_id = 1;
+	                                                                break;
+	                                                        case "MOD":
+	                                                                $target_role_id = 2;
+									break;
+							}
 
-								if ($role_assoc) {
-									switch ($role_assoc['role']) {
-		                                                        case "ROOT":
-		                                                                $target_role_id = 0;
-		                                                                break;
-		                                                        case "ADMIN":
-		                                                                $target_role_id = 1;
-		                                                                break;
-		                                                        case "MOD":
-		                                                                $target_role_id = 2;
-										break;
-									}
+							if ($target_role_id > $_SESSION['role_id']) {
+								if ($value == 2) {
+									$process_okay = TRUE;
+									$process = "xoa";
 
-									if ($target_role_id > $_SESSION['role_id']) {
-										if ($value == 2) {
-											$query = "DELETE FROM user_mod WHERE username=$key LIMIT 1;";
-											echo "Cau truy van se duoc thuc hien: $query";
-											$result = @mysqli_query($dbc, $query);
-											if (mysqli_affected_rows($dbc) == 1) {
-												$msg .= "Da xoa quan tri vien $key khoi CSDL quan tri! <br />";
-											} else {
-												$msg .= "Khong the xoa quan tri vien $key khoi CSDL quan tri! <br />";
-											}
-										} else {
-											$query = "UPDATE user_mod SET role='$role' WHERE username=$key LIMIT 1";
-											$result = @mysqli_query($dbc, $query);
-											if (mysqli_affected_rows($dbc) == 1) {
-											        $msg .= "Da cap nhat vai tro cua quan tri vien $key thanh $role <br />";
-											} else {
-											        $msg .= "Khong the cap nhat vai tro cua quan tri vien $key thanh $role! <br />";
-											}
-										}
-									} else {
-										$msg .= "Tai khoan cua ban chua du quyen de thuc hien tac vu nay! <br />";
-									}
 								} else {
-									$msg .= "Co so du lieu gap truc trac!";
+									$process_okay = TRUE;
+									$process = "cap nhat vai tro cua";
 								}
 							} else {
-								$msg .= "Loi khi tim kiem nguoi dung!";
+								$process_okay = FALSE;
+								$msg .= "Tai khoan cua ban chua du quyen de thuc hien tac vu nay! <br />";
 							}
-						} else {
-							die("Gia tri khong an toan!");
+
+							if ($process_okay == TRUE) {
+								switch ($process) {
+								case "xoa":
+									$query = "DELETE FROM moderator WHERE user_id=$key LIMIT 1;";
+									echo "Cau truy van se duoc thuc hien: $query";
+									break;
+								case "cap nhat vai tro cua":
+									$query = "UPDATE moderator SET role='$role' WHERE user_id=$key LIMIT 1";
+									echo "Cau truy van se duoc thuc hien: $query";
+									break;
+								}
+
+								$result = @mysqli_query($dbc, $query);
+								if (mysqli_affected_rows($dbc) == 1) {
+									$msg .= "Da $process quan tri vien $target_user ($key) (khoi CSDL quan tri) <br />";
+								} else {
+									$msg .= "Khong the $process quan tri vien $target_user ($key) (khoi CSDL quan tri) <br />";
+								}
+
+							} else {
+								$msg .= "Chua dap ung du dieu kien de thuc hien hanh dong voi quan tri vien!";
+							}
+							
 						}
+
+					} else {
+						die("Gia tri khong an toan!");
 					}
 				}
-			} else {
-				$msg .= "Vai tro cua tai khoan ban khong cho phep thuc hien tac vu nay. <br />";
 			}
 		}
-	}
 
-	if (isset($msg)) {
-                echo "<p style=\"color: red;\">{$msg}</p>";
-	}
-
-        $query = "SELECT mod_id, username, role FROM user_mod";
-        $result = @mysqli_query($dbc, $query);
-	$num = mysqli_num_rows($result);
-
-	if ($num > 0) {
-                echo "<h3>Hien co $num quan tri vien</h3>";
-                echo "<form name=\"roletable\" action=\"{$_SERVER['PHP_SELF']}\" method=\"POST\">";
-                echo '<table align="center" cellspacing="2" cellpadding="2">
-                <tr>
-			<td width="10%">&nbsp</td>
-			<td width="18%" align="left"><b>ID</b></td>
-			<td width="18%" align="left"><b>Ten dang nhap</b></td>
-			<td width="18%" align="left"><b>Vai tro</b></td>
-                </tr>
-                ';
-                while ($row = mysqli_fetch_row($result)) {
-			if ($row[2] == "ROOT") {
-				echo "
-				<tr>
-                                <td width=\"10%\">&nbsp</td>
-                                <td width=\"18%\" align=\"left\">$row[0]</td>
-                                <td width=\"18%\" align=\"left\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</td>
-                                <td width=\"18%\" align=\"left\">$row[2]</td>
-				</tr>
-                        \n";
-                	} else {
-				switch ($row[2]) {
-				case "ADMIN":
-					$role_next = "MOD";
-					break;
-				case "MOD":
-					$role_next = "ADMIN";
-					break;
-				}
-	                        echo "
-				<tr>
-					<td width=\"10%\">&nbsp</td>
-					<td width=\"18%\" align=\"left\">$row[0]</td>
-					<td width=\"18%\" align=\"left\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</td>
-					<td width=\"18%\" align=\"left\">
-						<select name=\"role['{$row[1]}']\">
-							<option value=\"0\">$row[2]</option>
-							<option value=\"{$role_next}\">$role_next</option>
-							<option value=\"2\">Normal User</option>
-						</select>
-					</td>
-	                        </tr>
-				\n";
-			}
-                }
-                echo '</table>';
-                echo '<br /><div align="center"><input type="submit" name="update_role" value="Cap nhat vai tro" /></div>';
-		echo '</form>';
-                mysqli_free_result($result);
 	} else {
-		echo '<p>Co ve nhu chua co quan tri vien nao ca</p>';
+		$msg .= "Vai tro cua tai khoan ban khong cho phep thuc hien tac vu nay. <br />";
 	}
 
 	if (isset($_POST['add_new_mod'])) {
@@ -155,11 +101,12 @@ include("./include/header.html");
 						$result = @mysqli_query($dbc, $query);
 
 						if (mysqli_num_rows($result) == 1) {
-							$query = "SELECT mod_id FROM user_mod WHERE username='$newmod_username'";
+							$target_id = mysqli_fetch_assoc($result)['user_id'];
+							$query = "SELECT moderator_id FROM moderator WHERE user_id=$target_id";
 							$result = @mysqli_query($dbc, $query);
 
 							if (mysqli_num_rows($result) == 0) {
-								$query = "INSERT INTO user_mod (username, role) VALUES ('$newmod_username', '$newmod_role') ";
+								$query = "INSERT INTO moderator (user_id, role) VALUES ($target_id, '$newmod_role') ";
 								$result = @mysqli_query($dbc, $query);
 								if ($result) {
 									echo "<h3>Da them nguoi dung $newmod_username ($newmod_role) vao CSDL quan tri!</h3>";
@@ -181,9 +128,71 @@ include("./include/header.html");
 			} else {
 				echo "<h3>Nhap vao ten dang nhap cua nguoi dung!</h3>";
 			}
-		} else {
-			echo "<h3Vai tro cua ban khong cho phep thuc hien tac vu nay.</h3>>";
 		}
+
+	}
+
+
+	if (isset($msg)) {
+                echo "<p style=\"color: red;\">{$msg}</p>";
+	}
+
+        $query = "SELECT u.user_id, username, moderator_id, role FROM user AS u INNER JOIN moderator AS m ON u.user_id=m.user_id";
+        $result = @mysqli_query($dbc, $query);
+	$num = mysqli_num_rows($result);
+
+	if ($num > 0) {
+                echo "<h3>Hien co $num quan tri vien</h3>";
+                echo "<form name=\"roletable\" action=\"{$_SERVER['PHP_SELF']}\" method=\"POST\">";
+                echo '<table align="center" cellspacing="2" cellpadding="2">
+                <tr>
+			<td width="10%">&nbsp</td>
+			<td width="18%" align="left"><b>ID (Nguoi dung)</b></td>
+			<td width="18%" align="left"><b>Ten dang nhap</b></td>
+			<td width="18%" align="left"><b>Vai tro</b></td>
+                </tr>
+                ';
+                while ($row = mysqli_fetch_row($result)) {
+			if ($row[3] == "ROOT") {
+				echo "
+				<tr>
+                                <td width=\"10%\">&nbsp</td>
+                                <td width=\"18%\" align=\"left\">$row[0]</td>
+                                <td width=\"18%\" align=\"left\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</td>
+                                <td width=\"18%\" align=\"left\">$row[3]</td>
+				</tr>
+                        \n";
+                	} else {
+				switch ($row[3]) {
+				case "ADMIN":
+					$role_next = "MOD";
+					break;
+				case "MOD":
+					$role_next = "ADMIN";
+					break;
+				}
+	                        echo "
+				<tr>
+					<td width=\"10%\">&nbsp</td>
+					<td width=\"18%\" align=\"left\">$row[0]</td>
+					<td width=\"18%\" align=\"left\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</td>
+					<td width=\"18%\" align=\"left\">
+						<select name=\"role[{$row[0]}]\">
+							<option value=\"0\">$row[3]</option>
+							<option value=\"{$role_next}\">$role_next</option>
+							<option value=\"2\">Normal User</option>
+						</select>
+					</td>
+	                        </tr>
+				\n";
+			}
+                }
+                echo '</table>';
+                echo '<br /><div align="center"><input type="submit" name="update_role" value="Cap nhat vai tro" /></div>';
+		echo '</form>';
+                mysqli_free_result($result);
+	} else {
+		echo '<p>Co ve nhu chua co quan tri vien nao ca</p>';
 	}
 
         mysqli_close($dbc);
