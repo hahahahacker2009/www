@@ -1,5 +1,4 @@
 <?php
-$charset = "iso-8859-1";
 $page_title = "Quan li nguoi dung";
 include("./include/header.html");
 ?>
@@ -86,38 +85,38 @@ include("./include/header.html");
 
 	if ($num > 0) {
 		echo "<h3>Hien co $num nguoi dung da dang ki</h3>";
-		echo "<form name=\"usertable\" action=\"{$_SERVER['PHP_SELF']}\" method=\"POST\">";
-		echo '<table align="center" cellspacing="2" cellpadding="2">
+		echo "<form action=\"{$_SERVER['PHP_SELF']}\" method=\"post\">\n";
+		echo "<table style=\"text-align:center; padding: 2px 2px; border-spacing: 2px 2px;\">
 			<tr>
-				<td width="5%">&nbsp</td>
-				<td width="10%" align="left"><b>ID</b></td>
-				<td width="10%" align="left"><b>Ten</b></td>
-				<td width="10%" align="left"><b>Email</b></td>
-				<td width="10%" align="left"><b>Ngay dang ky</b></td>
-				<td width="10%" align="left"><b>Vai tro</b></td>
+				<td style=\"width: 5%; text-align: left;\">&nbsp;</td>
+				<td style=\"width: 10%; text-align: left;\"><b>ID</b></td>
+				<td style=\"width: 10%; text-align: left;\"><b>Ten</b></td>
+				<td style=\"width: 10%; text-align: left;\"><b>Email</b></td>
+				<td style=\"width: 10%; text-align: left;\"><b>Ngay dang ky</b></td>
+				<td style=\"width: 10%; text-align: left;\"><b>Vai tro</b></td>
 			</tr>
-			';
+			\n";
 		while ($row = mysqli_fetch_row($result)) {
 			$name = "{$row[1]} ({$row[2]})";
 			echo "
 			<tr>
-				<td width=\"5%\">&nbsp</td>
-				<td width=\"10%\" align=\"left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
-				<td width=\"10%\" align=\"left\"><a href=\"/profiles.php?username={$row[2]}\">$name</td>
-				<td width=\"10%\" align=\"left\">$row[3]</td>
-				<td width=\"10%\" align=\"left\">$row[4]</td>
+				<td style=\"width: 5%;\">&nbsp;</td>
+				<td style=\"width: 10%; text-align: left\"><input type=\"checkbox\" name=\"delete_id[]\" value=\"$row[0]\" />$row[0]</td>
+				<td style=\"width: 10%; text-align: left\"><a href=\"/profiles.php?username={$row[2]}\">$name</a></td>
+				<td style=\"width: 10%; text-align: left\">$row[3]</td>
+				<td style=\"width: 10%; text-align: left\">$row[4]</td>
 			";
 			if (isset($row[5])) {
-				echo "<td width=\"10%\" align=\"left\">{$row[5]}</td>";
+				echo "<td style=\"width: 10%; text-align: left\">{$row[5]}</td>";
 			} else {
-				echo "<td width=\"10%\" align=\"left\">Normal User</td>";
+				echo "<td style=\"width: 10%; text-align: left\">Normal User</td>";
 			}
 			echo "
 			</tr>
 			\n";
 		}
 		echo '</table>';
-		echo '<br /><div align="center"><input type="submit" name="delete" value="Xoa nguoi dung" /></div>';
+		echo '<br /><div style="text-align: center;"><input type="submit" name="delete" value="Xoa nguoi dung" /></div>';
 		echo '</form>';
 		mysqli_free_result($result);
 	} else {

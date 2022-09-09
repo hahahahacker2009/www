@@ -1,6 +1,5 @@
 <?php
-$charset = "iso-8859-1";
-$page_title = "Intranet - Trang chu";
+$page_title = "Đăng nhập";
 include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 
@@ -30,7 +29,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 		}
 
 		if ($username && $password) {
-			$query = "SELECT user_id, disp_name, username FROM user WHERE username='$username' and password=SHA2('$password', 256)";
+			$query = "SELECT user_id, disp_name, username FROM user WHERE username='$username' and password=SHA1('$password')";
 			echo "Cau truy van se duoc thuc hien: $query";
 			$result = @mysqli_query($dbc, $query);
 			$assoc = mysqli_fetch_assoc($result);
@@ -78,22 +77,22 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 
 <h1>Dang nhap tai khoan</h1>
 <h2>Dang nhap vao tai khoan cua ban</h2>
-<form name="login" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <fieldset>
 <!-- <div align="center"> -->
-<table border="0" width="100%" align="center">
-	<legend><h3>Nhap vao thong tin dang nhap</h3></legend>
+<legend><h3>Nhap vao thong tin dang nhap</h3></legend>
+<table style="text-align: center; border-width:0; width:100%;">
 	<tr>
-		<td width="30%">&nbsp</td>
-		<td width="13%"><b>Ten dang nhap:</b></td> <td><input type="text" name="username" size="20" maxlength="30" placeholder="Ten dang nhap" value="<?php if(isset($_POST['username'])) {echo stripslashes($_POST['username']);} ?>" required="required" /></td>
+		<td style="width:20%;">&nbsp;</td>
+		<td style="width:10%;"><b>Ten dang nhap:</b></td> <td><label for="username"><input id="username" type="text" name="username" size="24" maxlength="32" placeholder="Ten dang nhap" value="<?php if(isset($_POST['username'])) {echo escape_data_out($_POST['username']);} ?>" required="required" /></label></td>
 	</tr>
 	<tr>
-		<td width="30%">&nbsp</td>
-		<td width="13%"><b>Mat khau:</b></td> <td><input type="password" name="password" size="25" maxlength="48" placeholder="Mat khau" required="required" /></td>
+		<td style="width:20%;">&nbsp;</td>
+		<td style="width:10%;"><b>Mat khau:</b></td> <td><label for="password"><input id="password" type="password" name="password" size="24" maxlength="48" placeholder="Mat khau" required="required" /></label></td>
 	</tr>
 	<tr>
-		<td width="30%">&nbsp</td>
-		<td width="13%"><input type="submit" name="login" value="Dang nhap!" /></td>
+		<td style="width:20%;">&nbsp;</td>
+		<td style="width:10%;"><label for="login"><input id="login" type="submit" name="login" value="Dang nhap!" /></label></td>
 	</tr>
 </table>
 </fieldset>

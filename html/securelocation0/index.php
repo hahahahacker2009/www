@@ -10,8 +10,6 @@ include("./include/header.html");
 <?php
 	//require_once("{$_SERVER['DOCUMENT_ROOT']}/include/config.php");
 	require_once("./auth.php");
-
-	phpinfo();
 ?>
 
 

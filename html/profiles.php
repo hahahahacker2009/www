@@ -20,7 +20,7 @@
 			$assoc = mysqli_fetch_assoc($result);
 		
 			if ($assoc) {
-				$role_query = "SELECT role FROM mod WHERE user_id='{$assoc['user_id']}'";
+				$role_query = "SELECT role FROM moderator WHERE user_id='{$assoc['user_id']}'";
 				$role_result = @mysqli_query($dbc, $role_query);
 				$role_assoc = mysqli_fetch_assoc($role_result);
 				if ($role_assoc) {

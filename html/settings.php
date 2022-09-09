@@ -1,6 +1,5 @@
 <?php
-	$charset = "iso-8859-1";
-        $page_title = "Intranet - Trang chu";
+        $page_title = "Cai dat nguoi dung";
 	include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 ?>
 
@@ -25,12 +24,13 @@
 
 		if (isset($_POST['update'])) {
 			if (!empty($_POST['auth'])) {
-				$query = "SELECT user_id FROM user WHERE username='{$assoc['username']}' AND password=SHA2('{$_POST['auth']}', 256)";
+				$auth = hash("sha256", $_POST['auth']);
+				$query = "SELECT user_id FROM user WHERE username='{$assoc['username']}' AND password=SHA1('$auth')";
 				#echo "Cau truy van se duoc thuc hien: $query";
 				$result = @mysqli_query($dbc, $query);
 				$num = mysqli_num_rows($result);
 				if ($num == 1) {
-					if (!empty($_POST['disp_name'])) {
+					if (!empty($_POST['disp_name']) && preg_match("/^[[:alnum:].' -_]{4,48}$/i", escape_data_out($_POST['disp_name']))) {
 						if ($_POST['disp_name'] != $assoc['disp_name']) {
 							$disp_name = escape_data_in($_POST['disp_name']);
 							$query = "UPDATE user SET disp_name = '$disp_name' WHERE user_id='$userid' LIMIT 1";
@@ -44,7 +44,7 @@
 						}
 					}
 
-					if (!empty($_POST['username'])) {
+					if (!empty($_POST['username']) && preg_match("/^[[:alnum:]_]{4,64}$/i", escape_data_out($_POST['username']))) {
 						if ($_POST['username'] != $assoc['username']) {
 							$username = escape_data_in($_POST['username']);
 							$query = "UPDATE user SET username = '$username' WHERE user_id='$userid' LIMIT 1";
@@ -58,7 +58,7 @@
 						}
 					}
 
-					if (!empty($_POST['email'])) {
+					if (!empty($_POST['email']) && preg_match("/^[[:lower:]][a-z0-9_.-]*@[a-z0-9.-]+\.[a-z]{2,8}$/i", escape_data_out($_POST['email']))) {
 						if ($_POST['email'] != $assoc['email']) {
 							$email = escape_data_in($_POST['email']);
 							$query = "UPDATE user SET email = '$email' WHERE user_id='$userid' LIMIT 1";
@@ -71,11 +71,11 @@
 						}
 					}
 					
-					if (!empty($_POST['passwd'])) {
-						if ($_POST['passwd'] == $_POST['confirm']) {
-							if (hash('sha256', $_POST['passwd']) != $assoc['password']) {
-								$passwd = escape_data_in($_POST['passwd']);
-								$query = "UPDATE user SET password = SHA2('$passwd', 256) WHERE user_id='$userid' LIMIT 1";
+					if (!empty($_POST['password']) && preg_match("/^[[:alnum:]$#@%^.]{8,48}$/", escape_data_out($_POST['password']))) {
+						if ($_POST['password'] == $_POST['confirm']) {
+							if (sha1(hash('sha256', $_POST['password'])) != $assoc['password']) {
+								$password = sha1(escape_data_in($_POST['password']));
+								$query = "UPDATE user SET password = SHA1('$password') WHERE user_id='$userid' LIMIT 1";
 								$result = @mysqli_query($dbc, $query);
 								if (mysqli_affected_rows($dbc) == 1) {
 									$msg .= 'Mat khau cua ban da duoc thay doi. <br />';
@@ -98,7 +98,7 @@
 
 		if (isset($_POST['delete_account'])) {
 			if (!empty($_POST['auth'])) {
-				$query = "SELECT user_id FROM user WHERE username='{$assoc['username']}' AND password=SHA2('{$_POST['auth']}', 256)";
+				$query = "SELECT user_id FROM user WHERE username='{$assoc['username']}' AND password=SHA1('{$_POST['auth']}')";
                                 #echo "Cau truy van se duoc thuc hien: $query";
                                 $result = @mysqli_query($dbc, $query);
                                 $num = mysqli_num_rows($result);
@@ -134,38 +134,38 @@
 
 <h3><a href="<?php echo "http://{$_SERVER['HTTP_HOST']}/profiles.php?username={$_SESSION['username']}"; ?>">Ho so cong khai</a></h3>
 
-<form name="editinfo" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
 <fieldset>
-<table border="0" width="100%" align="center">
-	<legend><h3>Thong tin cua ban:</h3></legend>
+<legend><h3>Thong tin cua ban:</h3></legend>
+<table style="text-align: center; margin-left:auto; margin-right:auto; border-width:0; width:100%;">
 	<tr>
-		<td width="10%">&nbsp</td>
-		<td width="15%"><b>Mat khau hien tai:</b></td> <td><input type="password" name="auth" size="20" maxlength="40" placeholder="Mat khau hien tai" required="required" /></td>
+		<td style="width:1%;">&nbsp;</td>
+		<td style="width:2%;"><b>Mat khau hien tai:</b></td> <td><label for="auth"><input id="auth" type="password" name="auth" size="24" maxlength="48" placeholder="Mat khau hien tai" required="required" /></label></td>
 	</tr>
 	<tr>
-		<td width="10%">&nbsp</td>
-		<td width="15%"><b>Ten hien thi:</b></td> <td><input type="text" name="disp_name" size="20" maxlength="40" placeholder="<?php echo $assoc['disp_name']; ?>" /></td>
+		<td style="width:1%;">&nbsp;</td>
+		<td style="width:2%;"><b>Ten hien thi:</b></td> <td><label for="disp_name"><input id="disp_name" type="text" name="disp_name" size="24" maxlength="48" placeholder="<?php echo $assoc['disp_name']; ?>" /></label></td>
 	</tr>
 	<tr>
-		<td width="10%">&nbsp</td>
-		<td width="15%"><b>Ten dang nhap:</b></td> <td><input type="text" name="username" size="20" maxlength="30" placeholder="<?php echo $assoc['username']; ?>" /></td>
+		<td style="width:1%;">&nbsp;</td>
+		<td style="width:2%;"><b>Ten dang nhap:</b></td> <td><label for="username"><input id="username" type="text" name="username" size="24" maxlength="32" placeholder="<?php echo $assoc['username']; ?>" /></label></td>
 	</tr>
 	<tr>	
-		<td width="10%">&nbsp</td>
-		<td width="15%"><b>Dia chi email:</b></td> <td><input type="email" name="email" size="30" maxlength="60" placeholder="<?php echo $assoc['email']; ?>" /></td>
+		<td style="width:1%;">&nbsp;</td>
+		<td style="width:2%;"><b>Dia chi email:</b></td> <td><label for="email"><input id="email" type="email" name="email" size="32" maxlength="64" placeholder="<?php echo $assoc['email']; ?>" /></label></td>
 	</tr>
 	<tr>	
-		<td width="10%">&nbsp</td>
-		<td width="15%"><b>Mat khau (moi):</b></td> <td><input type="password" name="passwd" size="30" maxlength="60" placeholder="Mat khau moi" /></td>
+		<td style="width:1%;">&nbsp;</td>
+		<td style="width:2%;"><b>Mat khau (moi):</b></td> <td><label for="password"><input id="password" type="password" name="password" size="24" maxlength="48" placeholder="Mat khau moi" /></label></td>
 	</tr>
 	<tr>	
-		<td width="10%">&nbsp</td>
-		<td width="15%"><b>Xac nhan:</b></td> <td><input type="password" name="confirm" size="30" maxlength="60" placeholder="Xac nhan" /></td>
+		<td style="width:1%;">&nbsp;</td>
+		<td style="width:2%;"><b>Xac nhan:</b></td> <td><label for="confirm"><input id="confirm" type="password" name="confirm" size="24" maxlength="48" placeholder="Xac nhan" /></label></td>
 	</tr>
 	<tr>
-		<td width="10%">&nbsp</td>
-		<td width="15%"><input type="submit" name="update" value="Thay doi thong tin" /></td>
-		<td width="15%"><input type="submit" name="delete_account" value="Xoa tai khoan cua toi"></td>
+		<td style="width:1%;">&nbsp;</td>
+		<td style="width:2%;"><label for="update"><input id="update" type="submit" name="update" value="Thay doi thong tin" /></label></td>
+		<td style="width:2%;"><label for="delete_account"><input id="delete_account" type="submit" name="delete_account" value="Xoa tai khoan cua toi"></label></td>
 	</tr>
 </table>
 </fieldset>

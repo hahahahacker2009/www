@@ -1,5 +1,4 @@
 <?php
-$charset = "iso-8859-1";
 $page_title = "Quan li vai tro";
 include("./include/header.html");
 ?>
@@ -76,7 +75,7 @@ include("./include/header.html");
 							} else {
 								$msg .= "Chua dap ung du dieu kien de thuc hien hanh dong voi quan tri vien!";
 							}
-							
+
 						}
 
 					} else {
@@ -144,22 +143,22 @@ include("./include/header.html");
 	if ($num > 0) {
                 echo "<h3>Hien co $num quan tri vien</h3>";
                 echo "<form name=\"roletable\" action=\"{$_SERVER['PHP_SELF']}\" method=\"POST\">";
-                echo '<table align="center" cellspacing="2" cellpadding="2">
+                echo "<table style=\"text-align:center; padding: 2px 2px; border-spacing: 2px 2px;\">
                 <tr>
-			<td width="10%">&nbsp</td>
-			<td width="18%" align="left"><b>ID (Nguoi dung)</b></td>
-			<td width="18%" align="left"><b>Ten dang nhap</b></td>
-			<td width="18%" align="left"><b>Vai tro</b></td>
+			<td style=\"width: 30%;\">&nbsp;</td>
+			<td style=\"width: 14%;\"><b>ID (Nguoi dung)</b></td>
+			<td style=\"width: 14%;\"><b>Ten dang nhap</b></td>
+			<td style=\"width: 14%;\"><b>Vai tro</b></td>
                 </tr>
-                ';
+                ";
                 while ($row = mysqli_fetch_row($result)) {
 			if ($row[3] == "ROOT") {
 				echo "
 				<tr>
-                                <td width=\"10%\">&nbsp</td>
-                                <td width=\"18%\" align=\"left\">$row[0]</td>
-                                <td width=\"18%\" align=\"left\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</td>
-                                <td width=\"18%\" align=\"left\">$row[3]</td>
+                                <td style=\"width: 30%;\">&nbsp;</td>
+                                <td style=\"width: 14%;\">$row[0]</td>
+                                <td style=\"width: 14%;\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</a></td>
+                                <td style=\"width: 14%;\">$row[3]</td>
 				</tr>
                         \n";
                 	} else {
@@ -173,10 +172,10 @@ include("./include/header.html");
 				}
 	                        echo "
 				<tr>
-					<td width=\"10%\">&nbsp</td>
-					<td width=\"18%\" align=\"left\">$row[0]</td>
-					<td width=\"18%\" align=\"left\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</td>
-					<td width=\"18%\" align=\"left\">
+					<td style=\"width: 30%;\">&nbsp;</td>
+					<td style=\"width: 14%;\">$row[0]</td>
+					<td style=\"width: 14%;\"><a href=\"/profiles.php?username={$row[1]}\">$row[1]</a></td>
+					<td style=\"width: 14%;\">
 						<select name=\"role[{$row[0]}]\">
 							<option value=\"0\">$row[3]</option>
 							<option value=\"{$role_next}\">$role_next</option>
@@ -188,7 +187,7 @@ include("./include/header.html");
 			}
                 }
                 echo '</table>';
-                echo '<br /><div align="center"><input type="submit" name="update_role" value="Cap nhat vai tro" /></div>';
+                echo '<br /><div style="text-align:center;"><input type="submit" name="update_role" value="Cap nhat vai tro" /></div>';
 		echo '</form>';
                 mysqli_free_result($result);
 	} else {
@@ -198,14 +197,14 @@ include("./include/header.html");
         mysqli_close($dbc);
 ?>
 
-<br /><br /><br />
-<form name="add_mod" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-<div align="center"><input type="text" name="newmod_username" placeholder="Ten nguoi dung" size="20" maxlength="30" required="required" /></div>
+<br /><hr /><br />
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+<div style="text-align:center;"><label for="newmod_username"><input id="newmod_username" type="text" name="newmod_username" placeholder="Ten nguoi dung" size="20" maxlength="30" required="required" /></label></div>
 <br />
-<div align="center"><label for="newrole"><input type="radio" name="newrole" value="ADMIN" />ADMIN</label></div>
-<div align="center"><label for="newrole"><input type="radio" name="newrole" value="MOD" />MOD</label></div>
+<div style="text-align:center;"><label for="newrole_admin"><input id="newrole_admin" type="radio" name="newrole" value="ADMIN" />ADMIN</label></div>
+<div style="text-align:center;"><label for="newrole_mod"><input id="newrole_mod" type="radio" name="newrole" value="MOD" />MOD</label></div>
 <br />
-<div align="center"><input type="submit" name="add_new_mod" value="Them quan tri vien!" /></div>
+<div style="text-align:center;"><label for="add_new_mod"><input id="add_new_mod" type="submit" name="add_new_mod" value="Them quan tri vien!" /></label></div>
 </form>
 
 <!-- KET THUC NOI DUNG TRANG -->
