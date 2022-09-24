@@ -54,7 +54,7 @@
 			$exist['email'] = check_email($email, $dbc);
 
 			if ($exist['username'] == FALSE && $exist['email'] == FALSE) {
-				$query = "INSERT INTO user (disp_name, username, email, password, registration_date) VALUES ('$disp_name', '$username', '$email', SHA1('$password'), NOW());";
+				$query = "INSERT INTO user (disp_name, username, email, password, registration_date) VALUES ('$disp_name', '$username', '$email', SHA1('$password'), CURRENT_TIMESTAMP());";
 				echo "Cau lenh se thuc hien: $query";
 				$result = @mysqli_query($dbc, $query);
 				if ($result) {
