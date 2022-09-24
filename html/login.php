@@ -30,7 +30,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 
 		if ($username && $password) {
 			$query = "SELECT user_id, disp_name, username FROM user WHERE username='$username' and password=SHA1('$password')";
-			echo "Cau truy van se duoc thuc hien: $query";
+			echo "<!-- Cau truy van se duoc thuc hien: $query -->";
 			$result = @mysqli_query($dbc, $query);
 			$assoc = mysqli_fetch_assoc($result);
 			if ($assoc) {
@@ -38,6 +38,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 				$_SESSION['user_id'] = $assoc['user_id'];
 				$_SESSION['disp_name'] = $assoc['disp_name'];
 				$_SESSION['username'] = $assoc['username'];
+				login_log(TRUE, $username);
 				echo "<h2>Ban da dang nhap thanh cong!</h2>";
 				$query = "SELECT role FROM moderator WHERE user_id='{$assoc['user_id']}'";
 				$result = @mysqli_query($dbc, $query);
@@ -60,6 +61,7 @@ include("{$_SERVER['DOCUMENT_ROOT']}/include/header.html");
 				exit();
 			} else {
 				$msg = "Khong the dang nhap vao tai khoan ban! <br />" . mysqli_error($dbc);
+				login_log(FALSE, $username);
 			}
 
 			mysqli_free_result($result);
