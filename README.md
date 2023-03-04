@@ -8,7 +8,7 @@ www-data
 Tham khảo từ: Sử dụng PHP & MySQL - Thiết kế web động (Nguyễn Trường Sinh, NXB Thống Kê, 8/2005)
 
 Nền tảng hỗ trợ (hiện đang sử dụng): 
-Windows (Server) / Linux (Red Hat Enterprise Linux 9.x, Ubuntu Server 22.04)
+Linux (Alpine Linux > Gentoo Linux > Debian > Red Hat Enterprise Linux)
 
 Apache 2.4
 
