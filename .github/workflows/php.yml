@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: alpine-latest
+    runs-on: alpine
 
     steps:
     - uses: actions/checkout@v3
