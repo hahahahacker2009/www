@@ -1,7 +1,7 @@
 # www
 www-data
 
-[Give up GitHub!](https://sfconservancy.org/GiveUpGitHub/)
+## [Gived up GitHub!](https://sfconservancy.org/GiveUpGitHub/)
 
 # ! Đã được viết lại và chuyển tới https://codeberg.org/ringwormGO/spamdforum
 
